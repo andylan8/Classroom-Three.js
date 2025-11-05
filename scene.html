@@ -1,0 +1,24 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Three.js — Classroom Scene</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    html, body { height: 100%; margin: 0; background: #0b0c10; }
+    #info { position: fixed; left: 12px; bottom: 12px; color: #d1d5db; font: 12px/1.4 system-ui, sans-serif; opacity: .9 }
+    #info code { background: rgba(255,255,255,.1); padding: 2px 6px; border-radius: 4px; }
+  </style>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js"
+      }
+    }
+  </script>
+  <div id="info">Platform with benches, trashcans, and ribbons. Orbit with mouse.</div>
+  <script type="module" src="scene.js"></script>
+  <script type="module" src="objects/sphere.js"></script>
+</body>
+</html>
+
+
