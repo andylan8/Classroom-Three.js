@@ -7,7 +7,7 @@ Partner: Mattew Hanna
 
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js";
 /* Import Globals */
-import { scene, camera } from "./scene.js";
+import { scene, camera } from "../scene.js";
 
 var table = new THREE.Group();
 
