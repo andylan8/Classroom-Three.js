@@ -2,7 +2,7 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.m
 import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/controls/OrbitControls.js";
 
 export const scene = new THREE.Scene();
-export const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 300);
+export const camera = new THREE.OrthographicCamera(-20, 20, 20,-20, -60, 60);
 camera.position.set(12, 5, 14);
 camera.lookAt(0, 2, 0);
 
@@ -35,15 +35,10 @@ const matEdge      = new THREE.MeshStandardMaterial({ color: 0xd9a441, metalness
 const matWood      = new THREE.MeshStandardMaterial({ color: 0x9c6b3f, roughness: 0.75, metalness: 0.05 });
 const matGreen     = new THREE.MeshStandardMaterial({ color: 0x1b5e3a, roughness: 0.4, metalness: 0.8 });
 
-const ground = new THREE.Mesh(new THREE.BoxGeometry(40, 0.1, 8), matBlue);
-ground.position.y = 0.05;
+const ground = new THREE.Mesh(new THREE.BoxGeometry(20, 0.1, 20), matBlue);
+ground.position.y = -2;
 scene.add(ground);
 
-const PLATFORM_LEN = 36;
-const PLATFORM_WID = 6;
-const PLATFORM_H   = 1.0;
-const platform = new THREE.Group();
-scene.add(platform);
 
 function animate() {
   requestAnimationFrame(animate);
