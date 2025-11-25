@@ -51,10 +51,12 @@ let screen_bottom_back_right = addVertexWithColor(width/2, height, -depth/2 + sc
 let screen_bottom_front_left = addVertexWithColor(-width/2, height, -depth/2 + screen_depth + screen_depth_offset, screen_frame_color); // screen bottom front left
 let screen_bottom_front_right = addVertexWithColor(width/2, height, -depth/2 + screen_depth + screen_depth_offset, screen_frame_color); // screen bottom front right
 
-let display_bottom_left = addVertexWithColor(-width/2 + 0.05, height + 0.05, -depth/2 + screen_depth + screen_depth_offset + 0.005, [0.0, 0.0, 0.0]); // display bottom left
-let display_bottom_right = addVertexWithColor(width/2 - 0.05, height + 0.05, -depth/2 + screen_depth + screen_depth_offset + 0.005, [0.0, 0.0, 0.0]); // display bottom right
-let display_top_left = addVertexWithColor(-width/2 + 0.05, height + screen_height - 0.05, -depth/2 + screen_depth + screen_depth_offset + 0.005, [0.0, 0.0, 0.0]); // display top left
-let display_top_right = addVertexWithColor(width/2 - 0.05, height + screen_height - 0.05, -depth/2 + screen_depth + screen_depth_offset + 0.005, [0.0, 0.0, 0.0]); // display top right
+const display_color = [0.0, 0.0, 0.0];
+
+let display_bottom_left = addVertexWithColor(-width/2 + 0.05, height + 0.05, -depth/2 + screen_depth + screen_depth_offset + 0.005, display_color); // display bottom left
+let display_bottom_right = addVertexWithColor(width/2 - 0.05, height + 0.05, -depth/2 + screen_depth + screen_depth_offset + 0.005, display_color); // display bottom right
+let display_top_left = addVertexWithColor(-width/2 + 0.05, height + screen_height - 0.05, -depth/2 + screen_depth + screen_depth_offset + 0.005, display_color); // display top left
+let display_top_right = addVertexWithColor(width/2 - 0.05, height + screen_height - 0.05, -depth/2 + screen_depth + screen_depth_offset + 0.005, display_color); // display top right
 
 const keyboard_color = [0.0, 0.0, 0.0];
 
@@ -126,12 +128,11 @@ geometry.setAttribute( 'color', new THREE.BufferAttribute( new Float32Array(colo
 geometry.computeVertexNormals();
 geometry.setIndex( indicies );
 
-const material = new THREE.MeshBasicMaterial({ vertexColors: true });
+const material = new THREE.MeshStandardMaterial({ vertexColors: true, metalness: 0.7, roughness: 0.4 });
 //const material = new THREE.MeshBasicMaterial( { color: 0x808080, metalness: 1, roughness: 0.5 } );
-const cube = new THREE.Mesh(geometry, material);
+const laptop = new THREE.Mesh(geometry, material);
 
-cube.position.set(0, 2.25, 0);
+laptop.castShadow = true;
+laptop.receiveShadow = true;
 
-console.log(cube.position)
-
-scene.add(cube);
+export { laptop };
