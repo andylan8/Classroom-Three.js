@@ -2,7 +2,7 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.m
 import * as THREE_ADDON from "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/Addons.js";
 
 /* Import Globals */
-import { scene, camera } from "../../scene.js";
+import { scene, camera } from "../scene.js";
 
 const width = 120;
 const height = 40;
