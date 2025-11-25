@@ -6,14 +6,17 @@ import { scene, camera } from "../../scene.js";
 // classroom ceiling lights
 const pointLight = new THREE.PointLight( 0xffffff, 4000, 60 );
 pointLight.position.set( -30, 35, 0 );
+pointLight.castShadow = true;
 scene.add( pointLight );
 
 const pointLight2 = new THREE.PointLight( 0xffffff, 4000, 60 );
 pointLight2.position.set( 0, 35, 0 );
+pointLight2.castShadow = true;
 scene.add( pointLight2 );
 
 const pointLight3 = new THREE.PointLight( 0xffffff, 4000, 60 );
 pointLight3.position.set( 30, 35, 0 );
+pointLight3.castShadow = true;
 scene.add( pointLight3 );
 
 // projector spot light
