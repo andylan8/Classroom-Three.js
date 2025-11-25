@@ -5,8 +5,12 @@ import { scene, camera } from "../scene.js";
 
 function createLeg() {
     const geometry = new THREE.CylinderGeometry( 0.1, 0.1, 1, 32 );
-    const material = new THREE.MeshBasicMaterial( { color: 0x303030 } );
+    const material = new THREE.MeshStandardMaterial( { color: 0xb4b5b7, metalness: 0.6, roughness: 0.4 } );
     const cylinder = new THREE.Mesh( geometry, material );
+
+    cylinder.castShadow = true;
+    cylinder.receiveShadow = true;
+
     return cylinder;
 }
 
@@ -37,17 +41,23 @@ shape.lineTo( length, 0 );
 shape.lineTo( 0, 0 );
 
 const seat = new THREE.ExtrudeGeometry( shape );
-const seatMaterial = new THREE.MeshBasicMaterial( { color: 0x202020 } );
+const seatMaterial = new THREE.MeshStandardMaterial( { color: 0x202020, metalness: 0 } );
 let seatMesh = new THREE.Mesh( seat, seatMaterial );
 seatMesh.position.set(-length/2, 1.1, -length/2);
+
+seatMesh.castShadow = true;
+seatMesh.receiveShadow = true;
+
 chair.add( seatMesh );
 
-let backrest = new THREE.BoxGeometry(1.2, 1.0, 0.2);
-let backrestMaterial = new THREE.MeshBasicMaterial( { color: 0x303030 } );
+let backrest = new THREE.BoxGeometry(1.2, 1.7, 0.2);
+let backrestMaterial = new THREE.MeshStandardMaterial( { color: 0x303030 } );
 let backrestMesh = new THREE.Mesh( backrest, backrestMaterial );
-backrestMesh.position.set(0, 1.75, -0.5);
+backrestMesh.position.set(0, 2.1, -0.5);
+
+backrestMesh.castShadow = true;
+backrestMesh.receiveShadow = true;
+
 chair.add( backrestMesh );
 
-chair.position.set(3, 0, 0);
-
-scene.add( chair );
+export { chair };

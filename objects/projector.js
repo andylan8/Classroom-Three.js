@@ -71,7 +71,7 @@ boxMesh.setAttribute( 'color', new THREE.BufferAttribute( new Float32Array(color
 boxMesh.computeVertexNormals();
 boxMesh.setIndex( indices );
 
-const boxMat = new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.DoubleSide });
+const boxMat = new THREE.MeshStandardMaterial({ vertexColors: true, side: THREE.DoubleSide, metalness: 0.7, roughness: 0.4 });
 const box = new THREE.Mesh(boxMesh, boxMat);
 
 box.position.set(0, 2, 0);
@@ -268,7 +268,7 @@ const mountMesh = new THREE.BufferGeometry();
 mountMesh.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(mountVertices), 3 ) );
 mountMesh.computeVertexNormals();
 mountMesh.setIndex(cameraIndices);
-const mountMat = new THREE.MeshBasicMaterial({ color: 0xeceded, side: THREE.DoubleSide});
+const mountMat = new THREE.MeshBasicMaterial({ color: 0xeceded, side: THREE.DoubleSide });
 const mount = new THREE.Mesh(mountMesh, mountMat);
 mount.position.set(1.5, 3.5, 1);
 projector.add(mount);
@@ -359,6 +359,9 @@ projector.add(vent6);
 projector.add(vent7);
 projector.add(vent8);
 
-projector.position.y = 3;
+//projector.position.y = 3;
+projector.position.set(10, 12, 15);
+
+projector.scale.set(3, 3, 3);
 
 scene.add(projector);
