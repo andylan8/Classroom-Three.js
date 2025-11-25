@@ -9,9 +9,9 @@ import { scene, camera } from "../scene.js";
 var table = new THREE.Group();
 
 const loader = new THREE.TextureLoader();
-const texture = loader.load('../textures/wood.jpg');
-const texture_norm = loader.load('../textures/wood_norm.jpg');
-const texture_rough = loader.load('../textures/wood_rough.jpg');
+const texture = loader.load('./textures/wood.jpg');
+const texture_norm = loader.load('./textures/wood_norm.jpg');
+const texture_rough = loader.load('./textures/wood_rough.jpg');
 const wood_material = new THREE.MeshStandardMaterial( { map:texture, normalMap: texture_norm, roughnessMap: texture_rough } );
 
 export const tableWidth = 10;

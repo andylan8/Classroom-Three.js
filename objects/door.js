@@ -9,9 +9,9 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.m
 export var door = new THREE.Group();
 
 const loader = new THREE.TextureLoader();
-const texture = loader.load('../textures/wood.jpg');
-const texture_norm = loader.load('../textures/wood_norm.jpg');
-const texture_rough = loader.load('../textures/wood_rough.jpg');
+const texture = loader.load('./textures/wood.jpg');
+const texture_norm = loader.load('./textures/wood_norm.jpg');
+const texture_rough = loader.load('./textures/wood_rough.jpg');
 const wood_material = new THREE.MeshStandardMaterial({ map: texture, normalMap: texture_norm, roughnessMap: texture_rough });
 
 const doorWidth = 6;
