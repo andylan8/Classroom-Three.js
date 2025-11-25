@@ -91,9 +91,9 @@ pivot4.position.set(4.5,-1.7,-1.7);
 table.add(pivot4);
 
 const radius =  .25;  
-const height =  .2;  
+export const stablizerHeight =  .2;  
 const radialSegments = 30;  
-const stablizer = new THREE.ConeGeometry(radius, height, radialSegments);
+const stablizer = new THREE.ConeGeometry(radius, stablizerHeight, radialSegments);
 const stabMaterial = new THREE.MeshStandardMaterial({ color: 0xb4b5b7 });
 const stablizer1 = new THREE.Mesh(stablizer, stabMaterial);
 stablizer1.position.set(-4.5,-1.85,-1.7);
