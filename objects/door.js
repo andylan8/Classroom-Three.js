@@ -14,7 +14,7 @@ const texture_norm = loader.load('../textures/wood_norm.jpg');
 const texture_rough = loader.load('../textures/wood_rough.jpg');
 const wood_material = new THREE.MeshStandardMaterial({ map: texture, normalMap: texture_norm, roughnessMap: texture_rough });
 
-const doorWidth = 7;
+const doorWidth = 6;
 const doorHeight = 10;
 const doorDepth = .5;
 const doorBoard = new THREE.BoxGeometry(doorWidth, doorHeight, doorDepth);
@@ -33,10 +33,10 @@ const doorKnobHS = 20;
 const doorKnob = new THREE.SphereGeometry(doorKnobRadius, doorKnobWS, doorKnobHS);
 const doorKnobMaterial = new THREE.MeshStandardMaterial({ color: 0xb4b5b7, metalness: 0.6, roughness: 0.4 });
 const doorKnobMesh1 = new THREE.Mesh(doorKnob, doorKnobMaterial);
-doorKnobMesh1.position.set(6.3, 4.5, .5);
+doorKnobMesh1.position.set(5.3, 4.5, .5);
 
 const doorKnobMesh2 = new THREE.Mesh(doorKnob, doorKnobMaterial);
-doorKnobMesh2.position.set(6.3, 4.5, -.5);
+doorKnobMesh2.position.set(5.3, 4.5, -.5);
 doorKnobMesh1.castShadow = true;
 doorKnobMesh1.recieveShadow = true;
 doorKnobMesh2.castShadow = true;
@@ -51,7 +51,7 @@ const knobBridge = new THREE.CylinderGeometry(bridgeRadius, bridgeRadius, bridge
 const bridgeMaterial = new THREE.MeshStandardMaterial({ color: 0xb4b5b7, metalness: 0.6, roughness: 0.4 });
 const bridgeMesh = new THREE.Mesh(knobBridge, bridgeMaterial);
 bridgeMesh.rotation.x = Math.PI / 2;
-bridgeMesh.position.set(6.3, 4.5, 0);
+bridgeMesh.position.set(5.3, 4.5, 0);
 bridgeMesh.castShadow = true;
 bridgeMesh.recieveShadow = true;
 door.add(bridgeMesh);
@@ -109,6 +109,6 @@ door.add(plateMesh3);
 
 export const doorPivot = new THREE.Group();
 doorPivot.rotation.y = 2 * Math.PI / 2;
-doorPivot.position.set(-38, -2, 60);
+doorPivot.position.set(-39, -2, 60);
 
 doorPivot.add(door);

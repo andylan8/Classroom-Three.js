@@ -1,6 +1,7 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js";
 import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/controls/OrbitControls.js";
 
+import { doorPivot } from "./objects/door.js";
 const projection_size = 10;
 
 export const scene = new THREE.Scene();
@@ -20,10 +21,10 @@ controls.target.set(0, 2, 0);
 controls.update();
 
 const loader = new THREE.TextureLoader();
-const tile_tex = loader.load('../textures/tiles.jpg');
-const tile_tex_norm = loader.load('../textures/tiles_norm.jpg');
-const tile_tex_rough = loader.load('../textures/tiles_rough.jpg');
-const tile_tex_disp = loader.load('../textures/tiles_disp.jpg');
+const tile_tex = loader.load('./textures/tiles.jpg');
+const tile_tex_norm = loader.load('./textures/tiles_norm.jpg');
+const tile_tex_rough = loader.load('./textures/tiles_rough.jpg');
+const tile_tex_disp = loader.load('./textures/tiles_disp.jpg');
 const ground_mat = new THREE.MeshStandardMaterial( { map:tile_tex, normalMap: tile_tex_norm, roughnessMap: tile_tex_rough, displacementMap: tile_tex_disp } );
 
 tile_tex.wrapS = THREE.RepeatWrapping;
@@ -37,9 +38,19 @@ ground.castShadow = false;
 ground.receiveShadow = true;
 
 scene.add(ground);
+scene.add(doorPivot);
+
+
+var isOpen = false;
 
 function animate() {
   requestAnimationFrame(animate);
+  if (isOpen && doorPivot.rotation.y > Math.PI / 2) {
+    doorPivot.rotation.y -= .02;
+  }
+  if (!isOpen && doorPivot.rotation.y < (2*Math.PI/2)) {
+    doorPivot.rotation.y += .02;
+  }
   renderer.render(scene, camera);
 }
 animate();
@@ -49,4 +60,9 @@ window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+});
+window.addEventListener("keydown", function (event) {
+  if (event.key == "A" || event.key == "a") {
+    isOpen = !isOpen;
+  }
 });
