@@ -34,7 +34,10 @@ const extrudeSettings = {
 
 const loader = new THREE.TextureLoader();
 const texture = loader.load('./textures/wallpaper.jpg');
-const wallpaper_material = new THREE.MeshStandardMaterial( { map:texture, color: 0xf0f0f0 } );
+const texture_rough = loader.load('./textures/wallpaper_rough.jpg');
+const texture_disp = loader.load('./textures/wallpaper_disp.jpg');
+const texture_norm = loader.load('./textures/wallpaper_norm.jpg');
+const wallpaper_material = new THREE.MeshStandardMaterial( { map:texture, roughnessMap: texture_rough, displacementMap: texture_disp, normalMap: texture_norm } );
 
 const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
 
