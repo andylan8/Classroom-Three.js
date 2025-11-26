@@ -2,8 +2,7 @@
 myself and entirely without the use of artificial intelligence tools 
 such as ChatGPT, MS Copilot, other LLMs, etc.
 
-Partner: Mattew Hanna
-
+Team Members: Matthew Hanna, Andy Lan
 */
 
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js";
