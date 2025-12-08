@@ -12,7 +12,7 @@ import * as THREE_ADDON from "https://cdn.jsdelivr.net/npm/three@0.164.0/example
 import { scene, camera } from "../scene.js";
 
 const loader = new THREE_ADDON.EXRLoader();
-const texture = loader.load( './textures/day2.exr' );
+const texture = loader.load( './textures/night_sky.exr' );
 
 const skyboxGeo = new THREE.BoxGeometry(6000, 6000, 6000);
 const skyboxMaterial = new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide });

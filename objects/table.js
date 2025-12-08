@@ -7,7 +7,7 @@ Team Members: Matthew Hanna, Andy Lan
 
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js";
 /* Import Globals */
-import { scene, camera } from "../scene.js";
+import { scene, camera, create_material_from_texture } from "../scene.js";
 
 var table = new THREE.Group();
 
@@ -27,7 +27,8 @@ const standRadius = .25;
 const standRS = 50;
 const standHeight = 3.5;
 const tableStand = new THREE.CylinderGeometry(standRadius, standRadius, standHeight, standRS);
-const standMat = new THREE.MeshStandardMaterial({ color: 0xb4b5b7 });
+const standMat = create_material_from_texture("./textures/Metal", 0xb4b5b7);//new THREE.MeshStandardMaterial({ color: 0xb4b5b7 });
+standMat.displacementMap = null;
 
 const tableMesh = new THREE.Mesh(tableTop, tableTopMaterial);
 tableMesh.position.y = 2;
@@ -57,7 +58,7 @@ const barWidth = .35;
 const barHeight = .2;
 const barDepth = 4;
 const bar = new THREE.BoxGeometry(barWidth, barHeight, barDepth);
-const barMaterial = new THREE.MeshStandardMaterial({ color: 0xb4b5b7 });
+const barMaterial = standMat;//new THREE.MeshStandardMaterial({ color: 0xb4b5b7 });
 const bar1 = new THREE.Mesh(bar, barMaterial);
 bar1.position.set(-4.5, -1.6, 0);
 const bar2 = new THREE.Mesh(bar, barMaterial);

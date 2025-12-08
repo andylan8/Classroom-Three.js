@@ -6,13 +6,15 @@ Team Members: Matthew Hanna, Andy Lan
 */
 
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js";
+import * as THREE_ADDON from "https://cdn.jsdelivr.net/npm/three@0.164.0/examples/jsm/Addons.js";
 
 /* Import Globals */
-import { scene, camera } from "../scene.js";
+import { scene, camera, create_material_from_texture } from "../scene.js";
 
 function createLeg() {
-    const geometry = new THREE.CylinderGeometry( 0.1, 0.1, 1, 32 );
-    const material = new THREE.MeshStandardMaterial( { color: 0xb4b5b7, metalness: 0.6, roughness: 0.4 } );
+    const geometry = new THREE.CylinderGeometry( 0.07, 0.07, 1, 32 );
+    const material = create_material_from_texture("./textures/Metal", 0xb4b5b7);
+    material.displacementMap = null;
     const cylinder = new THREE.Mesh( geometry, material );
 
     cylinder.castShadow = true;
@@ -47,23 +49,27 @@ shape.lineTo( length, width );
 shape.lineTo( length, 0 );
 shape.lineTo( 0, 0 );
 
-const seat = new THREE.ExtrudeGeometry( shape );
-const seatMaterial = new THREE.MeshStandardMaterial( { color: 0x202020, metalness: 0 } );
+const seat = new THREE_ADDON.RoundedBoxGeometry(1.3, 0.25, 1.4);//new THREE.ExtrudeGeometry( shape, {bevelSegments: 5} );
+
+const seatMaterial = create_material_from_texture("./textures/Fabric", 0x202020);//new THREE.MeshStandardMaterial( { color: 0x202020, metalness: 0 } );
+seatMaterial.displacementMap = null;
+
 let seatMesh = new THREE.Mesh( seat, seatMaterial );
-seatMesh.position.set(-length/2, 1.1, -length/2);
+seatMesh.translateY(1.1);
+//seatMesh.position.set(-length/2, 1.1, -length/2);
 
 seatMesh.castShadow = true;
-seatMesh.receiveShadow = true;
+seatMesh.receiveShadow = false;
 
 chair.add( seatMesh );
 
-let backrest = new THREE.BoxGeometry(1.2, 1.7, 0.2);
-let backrestMaterial = new THREE.MeshStandardMaterial( { color: 0x303030 } );
+let backrest = new THREE_ADDON.RoundedBoxGeometry(1.2, 1.7, 0.25);
+let backrestMaterial = seatMaterial;//new THREE.MeshStandardMaterial( { color: 0x303030 } );
 let backrestMesh = new THREE.Mesh( backrest, backrestMaterial );
-backrestMesh.position.set(0, 2.1, -0.5);
+backrestMesh.position.set(0, 1.8, -0.6);
 
 backrestMesh.castShadow = true;
-backrestMesh.receiveShadow = true;
+backrestMesh.receiveShadow = false;
 
 chair.add( backrestMesh );
 

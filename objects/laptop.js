@@ -8,11 +8,12 @@ Team Members: Matthew Hanna, Andy Lan
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js";
 
 /* Import Globals */
-import { scene, camera } from "../scene.js";
+import { scene, camera, create_material_from_texture, create_texture } from "../scene.js";
 
-const vertices = [];
+var vertices = [];
 const colors = [];
 const indicies = [];
+var uvs = [];
 
 let vertIdx = 0;
 
@@ -25,6 +26,12 @@ function addVertex(x, y, z) {
 function addVertexWithColor(x, y, z, color) {
     vertices.push(x, y, z);
     colors.push(...color);
+    return vertIdx++;
+}
+
+function addVertexWithUV(x, y, z, u, v) {
+    vertices.push(x, y, z);
+    uvs.push(u, v);
     return vertIdx++;
 }
 
@@ -57,13 +64,6 @@ let screen_bottom_back_left = addVertexWithColor(-width/2, height, -depth/2 + sc
 let screen_bottom_back_right = addVertexWithColor(width/2, height, -depth/2 + screen_depth_offset, screen_frame_color); // screen bottom back right
 let screen_bottom_front_left = addVertexWithColor(-width/2, height, -depth/2 + screen_depth + screen_depth_offset, screen_frame_color); // screen bottom front left
 let screen_bottom_front_right = addVertexWithColor(width/2, height, -depth/2 + screen_depth + screen_depth_offset, screen_frame_color); // screen bottom front right
-
-const display_color = [0.0, 0.0, 0.0];
-
-let display_bottom_left = addVertexWithColor(-width/2 + 0.05, height + 0.05, -depth/2 + screen_depth + screen_depth_offset + 0.005, display_color); // display bottom left
-let display_bottom_right = addVertexWithColor(width/2 - 0.05, height + 0.05, -depth/2 + screen_depth + screen_depth_offset + 0.005, display_color); // display bottom right
-let display_top_left = addVertexWithColor(-width/2 + 0.05, height + screen_height - 0.05, -depth/2 + screen_depth + screen_depth_offset + 0.005, display_color); // display top left
-let display_top_right = addVertexWithColor(width/2 - 0.05, height + screen_height - 0.05, -depth/2 + screen_depth + screen_depth_offset + 0.005, display_color); // display top right
 
 const keyboard_color = [0.0, 0.0, 0.0];
 
@@ -115,10 +115,6 @@ indicies.push(screen_bottom_front_left, screen_top_back_left, screen_bottom_back
 indicies.push(screen_top_back_left, screen_top_front_left, screen_top_front_right);
 indicies.push(screen_top_front_right, screen_top_back_right, screen_top_back_left);
 
-// display
-indicies.push(display_bottom_left, display_bottom_right, display_top_right);
-indicies.push(display_top_right, display_top_left, display_bottom_left);
-
 // keyboard
 indicies.push(keyboard_bottom_left, keyboard_bottom_right, keyboard_top_right);
 indicies.push(keyboard_top_right, keyboard_top_left, keyboard_bottom_left);
@@ -132,14 +128,47 @@ const geometry = new THREE.BufferGeometry();
 geometry.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(vertices), 3 ) );
 geometry.setAttribute( 'color', new THREE.BufferAttribute( new Float32Array(colors), 3 ) );
 
-geometry.computeVertexNormals();
 geometry.setIndex( indicies );
+geometry.computeVertexNormals();
 
-const material = new THREE.MeshStandardMaterial({ vertexColors: true, metalness: 0.7, roughness: 0.4 });
+const material = create_material_from_texture("./textures/Metal");//new THREE.MeshStandardMaterial({ vertexColors: true, metalness: 0.7, roughness: 0.4 });
+material.vertexColors = true;
+material.displacementMap = null;
 //const material = new THREE.MeshBasicMaterial( { color: 0x808080, metalness: 1, roughness: 0.5 } );
-const laptop = new THREE.Mesh(geometry, material);
+const laptop_mesh = new THREE.Mesh(geometry, material);
 
-laptop.castShadow = true;
-laptop.receiveShadow = true;
+laptop_mesh.castShadow = true;
+laptop_mesh.receiveShadow = false;
+
+vertices = [];
+vertIdx = 0;
+
+let display_bottom_left = addVertexWithUV(-width/2 + 0.05, height + 0.05, -depth/2 + screen_depth + screen_depth_offset + 0.005, 0.0, 0.0); // display bottom left
+let display_bottom_right = addVertexWithUV(width/2 - 0.05, height + 0.05, -depth/2 + screen_depth + screen_depth_offset + 0.005, 1.0, 0.0); // display bottom right
+let display_top_left = addVertexWithUV(-width/2 + 0.05, height + screen_height - 0.05, -depth/2 + screen_depth + screen_depth_offset + 0.005, 0.0, 1.0); // display top left
+let display_top_right = addVertexWithUV(width/2 - 0.05, height + screen_height - 0.05, -depth/2 + screen_depth + screen_depth_offset + 0.005, 1.0, 1.0); // display top right
+
+const display_geom = new THREE.BufferGeometry();
+display_geom.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(vertices), 3 ) );
+display_geom.setAttribute( 'uv', new THREE.BufferAttribute( new Float32Array(uvs), 2 ) );
+
+display_geom.setIndex([
+    display_bottom_left, display_bottom_right, display_top_right,
+    display_top_right, display_top_left, display_bottom_left,
+]);
+
+display_geom.computeVertexNormals();
+
+const display_texture = create_texture("./textures/display.jpg");
+
+const display_material = new THREE.MeshStandardMaterial({ map: display_texture });
+const display = new THREE.Mesh(display_geom, display_material);
+
+display.castShadow = false
+display.receiveShadow = false;
+
+const laptop = new THREE.Group();
+laptop.add(laptop_mesh);
+laptop.add(display);
 
 export { laptop };

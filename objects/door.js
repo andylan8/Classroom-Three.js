@@ -112,6 +112,6 @@ door.add(plateMesh3);
 
 export const doorPivot = new THREE.Group();
 doorPivot.rotation.y = 2 * Math.PI / 2;
-doorPivot.position.set(-39, -2, 60);
+doorPivot.position.set(-39, -0.8, 60.2);
 
 doorPivot.add(door);

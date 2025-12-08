@@ -7,7 +7,7 @@ Team Members: Matthew Hanna, Andy Lan
 
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js";
 /* Import Globals */
-import { scene, camera } from "../scene.js";
+import { scene, camera, create_material_from_texture } from "../scene.js";
 
 const projector = new THREE.Group();
 
@@ -41,36 +41,39 @@ let box_front_left_top = addVertexNum(0, height, depth, box_color);
 
 //bottom base
 indices.push(box_back_left_bottom, box_back_right_bottom, box_front_right_bottom);
-indices.push(box_back_left_bottom, box_front_left_bottom, box_front_right_bottom);
+indices.push(box_back_left_bottom, box_front_right_bottom, box_front_left_bottom);
 
 //back base
 indices.push(box_back_left_bottom, box_back_left_top, box_back_right_top);
-indices.push(box_back_left_bottom, box_back_right_bottom, box_back_right_top);
+indices.push(box_back_left_bottom, box_back_right_top, box_back_right_bottom);
 
 //left base
 indices.push(box_back_left_top, box_back_left_bottom, box_front_left_bottom);
-indices.push(box_back_left_top, box_front_left_top, box_front_left_bottom);
+indices.push(box_back_left_top, box_front_left_bottom, box_front_left_top);
 
 //right base
-indices.push(box_back_right_top, box_back_right_bottom, box_front_right_bottom);
+indices.push(box_back_right_top, box_front_right_bottom, box_back_right_bottom);
 indices.push(box_back_right_top, box_front_right_top, box_front_right_bottom);
 
 //front base
-indices.push(box_front_left_top, box_front_right_top, box_front_right_bottom);
+indices.push(box_front_left_top, box_front_right_bottom, box_front_right_top);
 indices.push(box_front_left_top, box_front_left_bottom, box_front_right_bottom);
 
 //top base
 indices.push(box_front_left_top, box_front_right_top, box_back_right_top);
-indices.push(box_front_left_top, box_back_left_top, box_back_right_top);
+indices.push(box_front_left_top, box_back_right_top, box_back_left_top);
 
 const boxMesh = new THREE.BufferGeometry();
 boxMesh.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(vertices), 3 ) );
 boxMesh.setAttribute( 'color', new THREE.BufferAttribute( new Float32Array(colors), 3 ) );
 
-boxMesh.computeVertexNormals();
 boxMesh.setIndex( indices );
+boxMesh.computeVertexNormals();
 
-const boxMat = new THREE.MeshStandardMaterial({ vertexColors: true, side: THREE.DoubleSide, metalness: 0.7, roughness: 0.4 });
+const boxMat = create_material_from_texture("./textures/Metal"); //new THREE.MeshStandardMaterial({ vertexColors: true, metalness: 0.8, roughness: 0.3 });
+boxMat.vertexColors = true;
+boxMat.roughnessMap = null;
+
 const box = new THREE.Mesh(boxMesh, boxMat);
 
 box.position.set(0, 2, 0);
@@ -161,11 +164,10 @@ const bottomOuterCenter = cameraVIndex;
 cameraVertices.push(0, 0, 0);
 cameraVIndex++;
 
-
 const cameraMesh = new THREE.BufferGeometry();
 cameraMesh.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(cameraVertices), 3 ) );
-cameraMesh.computeVertexNormals();
 cameraMesh.setIndex(cameraIndices);
+cameraMesh.computeVertexNormals();
 const cameraMat = new THREE.MeshBasicMaterial({ color: 0x808080, side: THREE.DoubleSide});
 const cameraLens = new THREE.Mesh(cameraMesh, cameraMat);
 cameraLens.position.set(2, 3, 1.8);
@@ -178,8 +180,8 @@ for (let i = 0; i < cameraSeg; i++) {
 }
 const lensMesh = new THREE.BufferGeometry();
 lensMesh.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(cameraVertices), 3 ) );
-lensMesh.computeVertexNormals();
 lensMesh.setIndex(cameraIndices);
+lensMesh.computeVertexNormals();
 const lensMat = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide});
 const lens = new THREE.Mesh(lensMesh, lensMat);
 lens.scale.set(.99, .99, .99);
@@ -265,9 +267,9 @@ mountVIndex++;
 
 const mountMesh = new THREE.BufferGeometry();
 mountMesh.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(mountVertices), 3 ) );
-mountMesh.computeVertexNormals();
 mountMesh.setIndex(cameraIndices);
-const mountMat = new THREE.MeshBasicMaterial({ color: 0xeceded, side: THREE.DoubleSide });
+mountMesh.computeVertexNormals();
+const mountMat = new THREE.MeshStandardMaterial({ color: 0xeceded, side: THREE.DoubleSide });
 const mount = new THREE.Mesh(mountMesh, mountMat);
 mount.position.set(1.5, 3.5, 1);
 projector.add(mount);
@@ -327,8 +329,8 @@ const ventMesh = new THREE.BufferGeometry();
 ventMesh.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(ventVertices), 3 ) );
 ventMesh.setAttribute( 'color', new THREE.BufferAttribute( new Float32Array(ventColors), 3 ) );
 
+ventMesh.setIndex( ventIndices );   
 ventMesh.computeVertexNormals();
-ventMesh.setIndex( ventIndices );
 
 const ventMat = new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.DoubleSide });
 const vent1 = new THREE.Mesh(ventMesh, ventMat);
@@ -359,7 +361,7 @@ projector.add(vent7);
 projector.add(vent8);
 
 //projector.position.y = 3;
-projector.position.set(10, 12, 15);
+projector.position.set(10, 12, -15);
 
 projector.scale.set(3, 3, 3);
 
