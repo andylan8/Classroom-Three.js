@@ -12,7 +12,7 @@ import * as THREE_ADDON from "https://cdn.jsdelivr.net/npm/three@0.164.0/example
 import { scene, camera } from "../scene.js";
 
 const width = 120;
-const height = 40;
+const height = 38;
 const hole_offset_x = 5;
 const hole_offset_y = 8;
 
