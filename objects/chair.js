@@ -18,7 +18,7 @@ function createLeg() {
     const cylinder = new THREE.Mesh( geometry, material );
 
     cylinder.castShadow = true;
-    cylinder.receiveShadow = true;
+    cylinder.receiveShadow = false;
 
     return cylinder;
 }

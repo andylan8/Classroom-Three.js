@@ -36,11 +36,6 @@ const lights = new THREE.CylinderGeometry(radius, radius, length, lightSegs);
 const lightMat = new THREE.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: 0.9, emissive: new THREE.Color(1, 1, 1), emissiveIntensity: 1 });
 const lightMesh = new THREE.Mesh(lights, lightMat);
 
-const pointLight = new THREE.PointLight(0xffffff, 1, 25, 0.1);
-pointLight.position.set(0, 0, 5);
-pointLight.castShadow = false;
-lightMesh.add(pointLight);
-
 //const pointLightHelper = new THREE.PointLightHelper( pointLight, 1 );
 //scene.add( pointLightHelper );
 
@@ -64,16 +59,20 @@ for (let i = 0; i < light_positions.length; ++i) {
     barClone.position.set(...position);
     barClone.translateY(-height / 2);
 
+    const pointLight = new THREE.PointLight(0xffffff, 1, 50, 0.1);
+    pointLight.position.set(0, -5, 0);
+    pointLight.castShadow = true;
+    barClone.add(pointLight);
     // only add spotlights for first 6 lights because we dont want the spotlight texture to be bright from the front lights
-    if (i < 6) {
+    /*if (i < 6) {
         const spotLight = new THREE.SpotLight(0xffffff, 1000);
-        spotLight.angle = Math.PI / 2;
+        spotLight.angle = Math.PI / 2.08;//2.1;
         spotLight.position.set(barClone.position.x + lightMesh.position.x, barClone.position.y + lightMesh.position.y - 0.1, barClone.position.z + lightMesh.position.z);
         spotLight.target.position.set(spotLight.position.x, spotLight.position.y - 1, spotLight.position.z);
         spotLight.castShadow = true;
         scene.add(spotLight);
         scene.add(spotLight.target);
-    }
+    }*/
 
     //const spotLightHelper = new THREE.SpotLightHelper( spotLight );
     //scene.add( spotLightHelper );
