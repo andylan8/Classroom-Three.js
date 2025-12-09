@@ -65,6 +65,12 @@ var restoreStartPos;
 var restoreStartRot;
 var restoreTime = 0.0;
 
+var forwardKeyDown = false;
+var backwardKeyDown = false;
+var leftKeyDown = false;
+var rightKeyDown = false;
+var upKeyDown = false;
+
 function lerp(a, b, t) {
   return a + (b - a) * t;
 }
@@ -74,7 +80,13 @@ function vector_lerp(v1, v2, time) {
 }
 
 function animate() {
+  const speed = 0.5;
+  const speedX = speed;
+  const speedZ = speed;
+  const speedY = speed;
+
   requestAnimationFrame(animate);
+  
   if (isOpen && doorPivot.rotation.y > Math.PI / 2) {
     doorPivot.rotation.y -= .02;
     closedDoor = false;
@@ -85,6 +97,26 @@ function animate() {
   } else if (!isOpen && !closedDoor) {
     closeDoorAudio.play();
     closedDoor = true;
+  }
+
+  if (forwardKeyDown) {
+    camera.translateZ(-speedZ);
+  }
+  
+  if (backwardKeyDown) {
+    camera.translateZ(speedZ);
+  }
+
+  if (leftKeyDown) {
+    camera.translateX(-speedX);
+  }
+
+  if (rightKeyDown) {
+    camera.translateX(speedX);
+  }
+
+  if (upKeyDown) {
+    camera.translateY(speedY);
   }
 
   if (restoreRequested) {
@@ -132,27 +164,42 @@ renderer.domElement.addEventListener('click', () => {
   controls.lock();
 });
 
-
-window.addEventListener("keydown", function (event) {
-  const speedX = 2.5;
-  const speedZ = 2.5;
-  const speedY = 2.5;
-
+window.addEventListener("keyup", function(event) {
   switch (event.key) {
     case "ArrowUp":
-      camera.translateZ(-speedZ);
+      forwardKeyDown = false;
     break;
     case "ArrowDown":
-      camera.translateZ(speedZ);
+      backwardKeyDown = false;
     break;
     case "ArrowLeft":
-      camera.translateX(-speedX);
+      leftKeyDown = false;
     break;
     case "ArrowRight":
-      camera.translateX(speedX);
+      rightKeyDown = false;
     break;
     case "Shift":
-      camera.translateY(speedY);
+      upKeyDown = false;
+    break;
+  }
+});
+
+window.addEventListener("keydown", function (event) {
+  switch (event.key) {
+    case "ArrowUp":
+      forwardKeyDown = true;
+    break;
+    case "ArrowDown":
+      backwardKeyDown = true;
+    break;
+    case "ArrowLeft":
+      leftKeyDown = true;
+    break;
+    case "ArrowRight":
+      rightKeyDown = true;
+    break;
+    case "Shift":
+      upKeyDown = true;
     break;
     case "a":
     case "A":
