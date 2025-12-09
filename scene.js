@@ -26,6 +26,7 @@ renderer.shadowMap.enabled = true;
 document.body.appendChild(renderer.domElement);
 
 const controls = new PointerLockControls(camera, renderer.domElement);
+controls.pointerSpeed = 1;
 scene.add(controls.getObject());
 
 const ground_mat = create_material_from_texture("./textures/Floor", 0xD1C5B7);
@@ -79,44 +80,48 @@ function vector_lerp(v1, v2, time) {
   return new THREE.Vector3(lerp(v1.x, v2.x, time), lerp(v1.y, v2.y, time), lerp(v1.z, v2.z, time));
 }
 
+const speed = .5;
+const clock = new THREE.Clock();
+
 function animate() {
-  const speed = 0.5;
+
+  requestAnimationFrame(animate);
+
+  const delta = clock.getDelta();
   const speedX = speed;
   const speedZ = speed;
   const speedY = speed;
 
-  requestAnimationFrame(animate);
-  
   if (isOpen && doorPivot.rotation.y > Math.PI / 2) {
-    doorPivot.rotation.y -= .02;
+    doorPivot.rotation.y -= (.02 / delta);
     closedDoor = false;
   }
 
   if (!isOpen && doorPivot.rotation.y < (2*Math.PI/2)) {
-    doorPivot.rotation.y += .02;
+    doorPivot.rotation.y += (.02 / delta);
   } else if (!isOpen && !closedDoor) {
     closeDoorAudio.play();
     closedDoor = true;
   }
 
   if (forwardKeyDown) {
-    camera.translateZ(-speedZ);
+    camera.translateZ(-speedZ / delta);
   }
   
   if (backwardKeyDown) {
-    camera.translateZ(speedZ);
+    camera.translateZ(speedZ / delta);
   }
 
   if (leftKeyDown) {
-    camera.translateX(-speedX);
+    camera.translateX(-speedX / delta);
   }
 
   if (rightKeyDown) {
-    camera.translateX(speedX);
+    camera.translateX(speedX / delta);
   }
 
   if (upKeyDown) {
-    camera.translateY(speedY);
+    camera.translateY(speedY / delta);
   }
 
   if (restoreRequested) {
@@ -124,7 +129,7 @@ function animate() {
     const endPosition = new THREE.Vector3(-44.173097, 12.2876946, -27.2086932);
     const endRotation = new THREE.Quaternion().setFromEuler(new THREE.Euler(-2.9906, -0.661496, -3.048398));
 
-    restoreTime += Math.min((1.0 / 60.0) / animationSeconds, 1.0);
+    restoreTime += Math.min(((1.0 / 60.0) / animationSeconds) / delta, 1.0);
     
     camera.position.set(...restoreStartPos.clone().lerp(endPosition, restoreTime));
     camera.rotation.setFromQuaternion(restoreStartRot.clone().slerp(endRotation, restoreTime), THREE.Euler.DEFAULT_ORDER);
