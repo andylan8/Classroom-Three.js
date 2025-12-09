@@ -1,6 +1,6 @@
 # Classroom-Three.js
 
-A classroom scene with lots of custom modeled objects.<br/> All implemented using a mixture of 3D primitive objects and polygonal mesh objects. 
+A classroom scene with animations, lights, shadows, and custom modeled objects.<br/> All implemented using a mixture of 3D primitive objects and polygonal mesh objects. 
 
 ## Demo
 
