@@ -4,12 +4,12 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.m
 import { scene, camera } from "../scene.js";
 
 const loader = new THREE.TextureLoader();
-const podium_texture = loader.load('../textures/podium.jpg');
+const podium_texture = loader.load('./textures/podium.jpg');
 
 const podium = new THREE.Group();
 
 const width = 5;
-const height = 8;
+const height = 7;
 const depth = .2;
 
 const leftSide = new THREE.BoxGeometry(width, height, depth);
@@ -44,8 +44,6 @@ topMesh.position.set(16, 3, 0);
 podium.add(topMesh);
 supportMesh.position.set(16, 2, 0);
 podium.add(supportMesh);
-podium.position.set(-5, 4, 42);
-
-
+podium.position.set(20, 3, 45);
 
 scene.add(podium);

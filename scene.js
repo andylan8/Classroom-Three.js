@@ -53,27 +53,37 @@ var fountainAudio = new Audio("./audio/fountain.mp3");
 var closeDoorAudio = new Audio("./audio/close_door.mp3");
 var openDoorAudio = new Audio("./audio/opening_door.mp3");
 
+openDoorAudio.volume = 0.5;
+closeDoorAudio.volume = 0.5;
+
 fountainAudio.loop = true;
 fountainAudio.volume = 0.0;
 fountainAudio.play();
+
+var closedDoor = false;
 
 function animate() {
   requestAnimationFrame(animate);
   if (isOpen && doorPivot.rotation.y > Math.PI / 2) {
     doorPivot.rotation.y -= .02;
-    openDoorAudio.play();
+    closedDoor = false;
   }
+
   if (!isOpen && doorPivot.rotation.y < (2*Math.PI/2)) {
     doorPivot.rotation.y += .02;
+  } else if (!isOpen && !closedDoor) {
     closeDoorAudio.play();
+    closedDoor = true;
   }
 
   if (restoreRequested) {    
     camera.position.set(-44.173097, 12.2876946, -27.2086932);
     camera.rotation.set(-2.9906, -0.661496, -3.048398);
+    doorPivot.rotation.y = Math.PI;
+    isOpen = false;
+    closedDoor = true;
     restoreRequested = false;
   }
-
 
   const distToFountain = camera.position.distanceTo(fountain.position);
 
@@ -125,6 +135,10 @@ window.addEventListener("keydown", function (event) {
     break;
     case "a":
     case "A":
+      if (!isOpen) {
+        openDoorAudio.play();
+      }
+
       isOpen = !isOpen;  
       break;
     case "b":

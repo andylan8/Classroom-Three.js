@@ -30,9 +30,10 @@ desk.add(chairClone);
 
 // Position pencil on table
 let pencilClone = pencil.clone();
-pencilClone.position.set(-2, 2.4, -pencilLength / 4);
+pencilClone.position.set(-3.5, 2.35, -pencilLength / 4 + 0.25);
 pencilClone.rotation.x = Math.PI / 2;
-pencilClone.scale.set(0.5, 0.5, 0.5);
+//pencilClone.rotation.z = Math.PI * 5.0/180.0;
+pencilClone.scale.set(0.3, 0.4, 0.3);
 desk.add(pencilClone);
 
 let paperClone = paper.clone();
@@ -61,6 +62,6 @@ for (let r = 0; r < desk_rows; r++) {
 for (let i = 0; i < positions.length; i++) {
     const pos = positions[i];
     const deskClone = desk.clone();
-    deskClone.position.set(pos[0], pos[1] + 1 + stablizerHeight, pos[2]);
+    deskClone.position.set(pos[0], pos[1] + 0.225 + stablizerHeight, pos[2]);
     scene.add(deskClone);
 }
