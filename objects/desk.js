@@ -12,6 +12,7 @@ import { chair } from "./chair.js";
 import { pencil, pencilLength } from "./pencil.js";
 import { table, tableWidth, tableDepth, stablizerHeight } from "./table.js";
 import { scene, camera } from "../scene.js";
+import { paper } from "./paper.js";
 
 let desk = new THREE.Group();
 
@@ -29,13 +30,18 @@ desk.add(chairClone);
 
 // Position pencil on table
 let pencilClone = pencil.clone();
-pencilClone.position.set(-2, 2.35, -pencilLength / 4);
+pencilClone.position.set(-2, 2.4, -pencilLength / 4);
 pencilClone.rotation.x = Math.PI / 2;
 pencilClone.scale.set(0.5, 0.5, 0.5);
 desk.add(pencilClone);
 
+let paperClone = paper.clone();
+paperClone.position.set(-2.5, 2.35, 0);
+paperClone.rotation.x = Math.PI / 2;
+paperClone.rotation.y = 2*Math.PI / 2;
+//paperClone.scale.set(0.5, 0.5, 0.5);
+desk.add(paperClone);
 desk.add(table);
-
 const desk_cols_spacing = tableWidth;
 const desk_rows_spacing = tableDepth + 15;
 const desk_rows = 5;
@@ -55,6 +61,6 @@ for (let r = 0; r < desk_rows; r++) {
 for (let i = 0; i < positions.length; i++) {
     const pos = positions[i];
     const deskClone = desk.clone();
-    deskClone.position.set(pos[0], pos[1] + 0.225 + stablizerHeight, pos[2]);
+    deskClone.position.set(pos[0], pos[1] + 1 + stablizerHeight, pos[2]);
     scene.add(deskClone);
 }

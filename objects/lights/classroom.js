@@ -25,12 +25,12 @@ const light_positions = [
     //[30, 35, 40],
 ];
 
-for (const position of light_positions) {
-    const pointLight = new THREE.PointLight( 0xffffff, 700, 0 );
-    pointLight.position.set( ...position );
-    pointLight.castShadow = true;
-    scene.add( pointLight );
-}
+// for (const position of light_positions) {
+//     const pointLight = new THREE.PointLight( 0xffffff, 700, 0 );
+//     pointLight.position.set( ...position );
+//     pointLight.castShadow = true;
+//     scene.add( pointLight );
+// }
 
 // projector spot light
 const spotLight = new THREE.SpotLight( 0xffffff, 3000 );

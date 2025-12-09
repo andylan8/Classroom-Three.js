@@ -50,6 +50,9 @@ var isOpen = false;
 var restoreRequested = false;
 
 var fountainAudio = new Audio("./audio/fountain.mp3");
+var closeDoorAudio = new Audio("./audio/close_door.mp3");
+var openDoorAudio = new Audio("./audio/opening_door.mp3");
+
 fountainAudio.loop = true;
 fountainAudio.volume = 0.0;
 fountainAudio.play();
@@ -58,9 +61,11 @@ function animate() {
   requestAnimationFrame(animate);
   if (isOpen && doorPivot.rotation.y > Math.PI / 2) {
     doorPivot.rotation.y -= .02;
+    openDoorAudio.play();
   }
   if (!isOpen && doorPivot.rotation.y < (2*Math.PI/2)) {
     doorPivot.rotation.y += .02;
+    closeDoorAudio.play();
   }
 
   if (restoreRequested) {    
