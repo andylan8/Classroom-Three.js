@@ -1,6 +1,6 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.module.js";
 
-import { scene, camera, create_texture, create_material_from_texture } from "../../scene.js";
+import { scene, camera, create_texture, create_material_from_texture } from "../scene.js";
 
 const light_positions = [
     [-30, 37.5, 0],
