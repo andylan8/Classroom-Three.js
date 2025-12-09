@@ -61,6 +61,17 @@ fountainAudio.volume = 0.0;
 fountainAudio.play();
 
 var closedDoor = false;
+var restoreStartPos;
+var restoreStartRot;
+var restoreTime = 0.0;
+
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
+
+function vector_lerp(v1, v2, time) {
+  return new THREE.Vector3(lerp(v1.x, v2.x, time), lerp(v1.y, v2.y, time), lerp(v1.z, v2.z, time));
+}
 
 function animate() {
   requestAnimationFrame(animate);
@@ -76,13 +87,23 @@ function animate() {
     closedDoor = true;
   }
 
-  if (restoreRequested) {    
-    camera.position.set(-44.173097, 12.2876946, -27.2086932);
-    camera.rotation.set(-2.9906, -0.661496, -3.048398);
-    doorPivot.rotation.y = Math.PI;
-    isOpen = false;
-    closedDoor = true;
-    restoreRequested = false;
+  if (restoreRequested) {
+    const animationSeconds = 3.0;
+    const endPosition = new THREE.Vector3(-44.173097, 12.2876946, -27.2086932);
+    const endRotation = new THREE.Quaternion().setFromEuler(new THREE.Euler(-2.9906, -0.661496, -3.048398));
+
+    restoreTime += Math.min((1.0 / 60.0) / animationSeconds, 1.0);
+    
+    camera.position.set(...restoreStartPos.clone().lerp(endPosition, restoreTime));
+    camera.rotation.setFromQuaternion(restoreStartRot.clone().slerp(endRotation, restoreTime), THREE.Euler.DEFAULT_ORDER);
+
+    if (restoreTime >= 1.0) {
+      doorPivot.rotation.y = Math.PI;
+      isOpen = false;
+      closedDoor = true;
+      restoreRequested = false;
+      restoreTime = 0.0;
+    }
   }
 
   const distToFountain = camera.position.distanceTo(fountain.position);
@@ -143,6 +164,8 @@ window.addEventListener("keydown", function (event) {
       break;
     case "b":
     case "B":
+      restoreStartPos = camera.position.clone();
+      restoreStartRot = new THREE.Quaternion().setFromEuler(camera.rotation, false);
       restoreRequested = true;
       break;
   }
