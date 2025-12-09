@@ -1,6 +1,6 @@
 # Classroom-Three.js
 
-A classroom scene with chairs, tables, laptops, door, projector, and pencils.<br/> All implemented using a mixture of 3D primitive objects and polygonal mesh objects. 
+A classroom scene with lots of custom modeled objects.<br/> All implemented using a mixture of 3D primitive objects and polygonal mesh objects. 
 
 ## Demo
 
@@ -9,44 +9,49 @@ A classroom scene with chairs, tables, laptops, door, projector, and pencils.<br
 ## Screenshots
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/899ff938-2a48-46df-98dc-1c0c721dbd12" width="800">
+  <img src="https://github.com/user-attachments/assets/2eeada68-dad7-483d-96d4-61eb735cd16a" width="800">
+  <img src="https://github.com/user-attachments/assets/14d41ccf-aeda-4a15-80d2-0fcf24281688" width="800">
+  <img src="https://github.com/user-attachments/assets/17e488e7-4fde-4566-a9af-a7f806101fab" width="800">
+  <img src="https://github.com/user-attachments/assets/6b2ac660-4c3a-4ae0-9b1c-81bf3ebefd9c" width="800">
+  <img src="https://github.com/user-attachments/assets/af8083c0-c09e-4a30-9eed-2241c996843c" width="800">
 </p>
 
 ## Controls
 
 | Action | Control |
 |--------|----------|
-| Move Forward / Move Backward / Zoom | Scroll Wheel |
-| Move Left | Right Mouse + Drag Right |
-| Move Right | Right Mouse + Drag Left |
-| Rotate Camera | Left Mouse + Drag |
+| Move Forward | Up Arrow Key |
+| Move Backward | Down Arrow Key |
+| Move Left | Left Arrow Key |
+| Move Right | Right Arrow Key |
+| Move Up | **Shift** Key |
+| Rotate Camera | Move Mouse |
 | Open / Close Door | **A** Key |
+| Reset Scene | **B** Key |
 
 ## Features
 
 - Fully modeled 3D classroom environment
-- Desks, chairs, laptops, pencils, windows, and projector
-- Realistic lighting, textures, and skybox
+- Fountain with moving water and fading sound effect
+- Realistic lighting, textures, shadows, and skybox
 - Interactive camera controls
-- Door with open/close animation
+- Door with open/close animation and sound effect
+- Outside walkway and grass area
 
-## Roadmap
+## Objects
 
-- Add Whiteboard
-
-- Add Podium
-
-- Add Paper/Notebook
-
-- Add Trash Can
-
-- Add Hanging Ceiling Lights
-
-- Implement shadows
-
-- Implement scene restoration
-
-- Add door open/close sound effect
+- Table
+- Chair
+- Laptop
+- Pencil
+- Paper
+- Projector
+- Trashcan
+- Podium
+- Whiteboard
+- Fountain
+- Door
+- Ceiling Light
 
 ## Tech Stack
 
