@@ -80,56 +80,58 @@ function vector_lerp(v1, v2, time) {
   return new THREE.Vector3(lerp(v1.x, v2.x, time), lerp(v1.y, v2.y, time), lerp(v1.z, v2.z, time));
 }
 
-const speed = .5;
+const speed = 40;
 const clock = new THREE.Clock();
 
 function animate() {
 
   requestAnimationFrame(animate);
 
-  const delta = clock.getDelta();
+  let delta = clock.getDelta();
   const speedX = speed;
   const speedZ = speed;
   const speedY = speed;
 
+  const doorAnimSeconds = 2;
+
   if (isOpen && doorPivot.rotation.y > Math.PI / 2) {
-    doorPivot.rotation.y -= (.02 / delta);
+    doorPivot.rotation.y -= (Math.PI * delta / doorAnimSeconds);
     closedDoor = false;
   }
 
   if (!isOpen && doorPivot.rotation.y < (2*Math.PI/2)) {
-    doorPivot.rotation.y += (.02 / delta);
+    doorPivot.rotation.y += (Math.PI * delta / doorAnimSeconds);
   } else if (!isOpen && !closedDoor) {
     closeDoorAudio.play();
     closedDoor = true;
   }
 
   if (forwardKeyDown) {
-    camera.translateZ(-speedZ / delta);
+    camera.translateZ(-speedZ * delta);
   }
   
   if (backwardKeyDown) {
-    camera.translateZ(speedZ / delta);
+    camera.translateZ(speedZ * delta);
   }
 
   if (leftKeyDown) {
-    camera.translateX(-speedX / delta);
+    camera.translateX(-speedX * delta);
   }
 
   if (rightKeyDown) {
-    camera.translateX(speedX / delta);
+    camera.translateX(speedX * delta);
   }
 
   if (upKeyDown) {
-    camera.translateY(speedY / delta);
+    camera.translateY(speedY * delta);
   }
 
   if (restoreRequested) {
-    const animationSeconds = 3.0;
+    const animationSeconds = 2.0;
     const endPosition = new THREE.Vector3(-44.173097, 12.2876946, -27.2086932);
     const endRotation = new THREE.Quaternion().setFromEuler(new THREE.Euler(-2.9906, -0.661496, -3.048398));
 
-    restoreTime += Math.min(((1.0 / 60.0) / animationSeconds) / delta, 1.0);
+    restoreTime += Math.min(delta / animationSeconds, 1.0);
     
     camera.position.set(...restoreStartPos.clone().lerp(endPosition, restoreTime));
     camera.rotation.setFromQuaternion(restoreStartRot.clone().slerp(endRotation, restoreTime), THREE.Euler.DEFAULT_ORDER);
@@ -152,7 +154,7 @@ function animate() {
     fountainAudio.volume = 0.0;
   }
 
-  water.material.uniforms[ 'time' ].value += 1.0 / 60.0;
+  water.material.uniforms[ 'time' ].value += delta;
 
   renderer.render(scene, camera);
 }
