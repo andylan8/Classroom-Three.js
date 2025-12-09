@@ -65,13 +65,6 @@ let screen_bottom_back_right = addVertexWithColor(width/2, height, -depth/2 + sc
 let screen_bottom_front_left = addVertexWithColor(-width/2, height, -depth/2 + screen_depth + screen_depth_offset, screen_frame_color); // screen bottom front left
 let screen_bottom_front_right = addVertexWithColor(width/2, height, -depth/2 + screen_depth + screen_depth_offset, screen_frame_color); // screen bottom front right
 
-const keyboard_color = [0.0, 0.0, 0.0];
-
-let keyboard_top_left = addVertexWithColor(-width/2.5, height + 0.005, -depth/3, keyboard_color); // keyboard top left
-let keyboard_top_right = addVertexWithColor(width/2.5, height + 0.005, -depth/3, keyboard_color); // keyboard top right
-let keyboard_bottom_left = addVertexWithColor(-width/2.5, height + 0.005, depth / 6, keyboard_color); // keyboard bottom left
-let keyboard_bottom_right = addVertexWithColor(width/2.5, height + 0.005, depth / 6, keyboard_color); // keyboard bottom right
-
 const trackpad_color = [0.0, 0.0, 0.0];
 
 let trackpad_top_left = addVertexWithColor(-width/8, height + 0.005, depth/4.5, trackpad_color); // trackpad top left
@@ -114,10 +107,6 @@ indicies.push(screen_bottom_front_left, screen_top_back_left, screen_bottom_back
 
 indicies.push(screen_top_back_left, screen_top_front_left, screen_top_front_right);
 indicies.push(screen_top_front_right, screen_top_back_right, screen_top_back_left);
-
-// keyboard
-indicies.push(keyboard_bottom_left, keyboard_bottom_right, keyboard_top_right);
-indicies.push(keyboard_top_right, keyboard_top_left, keyboard_bottom_left);
 
 // trackpad
 indicies.push(trackpad_bottom_left, trackpad_bottom_right, trackpad_top_right);
@@ -167,8 +156,41 @@ const display = new THREE.Mesh(display_geom, display_material);
 display.castShadow = false
 display.receiveShadow = false;
 
+vertices = [];
+uvs = [];
+vertIdx = 0;
+
+let keyboard_top_left = addVertexWithUV(-width/2.5, height + 0.005, -depth/3, 0.0, 1.0); // keyboard top left
+let keyboard_top_right = addVertexWithUV(width/2.5, height + 0.005, -depth/3, 1.0, 1.0); // keyboard top right
+let keyboard_bottom_left = addVertexWithUV(-width/2.5, height + 0.005, depth / 6, 0.0, 0.0); // keyboard bottom left
+let keyboard_bottom_right = addVertexWithUV(width/2.5, height + 0.005, depth / 6, 1.0, 0.0); // keyboard bottom right
+
+const keyboard_geom = new THREE.BufferGeometry();
+keyboard_geom.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(vertices), 3 ) );
+keyboard_geom.setAttribute( 'uv', new THREE.BufferAttribute( new Float32Array(uvs), 2 ) );
+
+keyboard_geom.setIndex([
+    keyboard_bottom_left, keyboard_bottom_right, keyboard_top_right,
+    keyboard_top_right, keyboard_top_left, keyboard_bottom_left,
+]);
+
+keyboard_geom.computeVertexNormals();
+
+const keyboard_texture = create_texture("./textures/keyboard.jpg");
+keyboard_texture.generateMipmaps = false;
+keyboard_texture.minFilter = THREE.LinearFilter;
+keyboard_texture.magFilter = THREE.LinearFilter;
+keyboard_texture.anisotropy = 16;
+
+const keyboard_material = new THREE.MeshStandardMaterial({ map: keyboard_texture });
+const keyboard = new THREE.Mesh(keyboard_geom, keyboard_material);
+
+keyboard.castShadow = false
+keyboard.receiveShadow = false;
+
 const laptop = new THREE.Group();
 laptop.add(laptop_mesh);
 laptop.add(display);
+laptop.add(keyboard);
 
 export { laptop };
